@@ -18,10 +18,12 @@ export default function App() {
       <UserContext.Provider value={user}>
         <Routes>
             <Route path="/" element={
-              user ? <Navigate replace to="/hoje" /> : <Login setUser={setUser}/>
+              // user ? <Navigate replace to="/hoje" /> : <Login setUser={setUser}/>
+              <Login setUser={setUser}/>
             }/>
             <Route path="/cadastro" element={
-              user ? <Signup /> : <Navigate replace to="/" />
+              // user ? <Signup /> : <Navigate replace to="/" />
+              <Signup />
             } />
             <Route path="/habitos" element={
               user ? <Home setUser={setUser}/> : <Navigate replace to="/" />
