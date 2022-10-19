@@ -5,12 +5,16 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import axios from "axios";
 import { url } from '../../constants/urls';
+import { useState } from 'react';
+import { ThreeDots } from  'react-loader-spinner'
 
 export default function Signup() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   function eventHandler(e) {
     e.preventDefault();
+    setLoading(true);
     const form = e.target;
     const obj = {
       email: form[0].value,
@@ -20,21 +24,40 @@ export default function Signup() {
     }
 
     axios.post(url.signUp, obj)
-    .then(r => console.log(r))
-    .catch(e => console.log(e));
-
-    navigate("/");
+    .then(r => {
+      console.log(r);
+      navigate("/");
+    })
+    .catch(e => {
+      console.log(e);
+      alert(e.response.data.message);
+      setLoading(false);
+    });
   }
 
   return (
     <AuthStyle>
       <Link to="/"><img src={logoImg} alt="" /></Link>
       <form action="" onSubmit={eventHandler}>
-        <Input type="email" placeholder="email" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com" required/>
-        <Input type="password" placeholder="senha" required/>
-        <Input type="text" placeholder="nome" required/>
-        <Input type="url" placeholder="foto" required/>
-        <Button>Cadastrar</Button>
+        <Input type="email" placeholder="email" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com" required disabled={loading}/>
+        <Input type="password" placeholder="senha" required disabled={loading}/>
+        <Input type="text" placeholder="nome" required disabled={loading}/>
+        <Input type="url" placeholder="foto" required disabled={loading}/>
+        <Button disabled={loading}>
+        {loading 
+            ? <ThreeDots 
+                height="inherit" 
+                width="80" 
+                radius="9"
+                color="white" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{justifyContent: "center"}}
+                wrapperClassName=""
+                visible={true}
+              />
+            : "Cadastrar"
+          }
+        </Button>
       </form>
       <Link to="/">Já tem uma conta? Faça login!</Link>
     </AuthStyle>

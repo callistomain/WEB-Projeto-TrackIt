@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { colorMain } from "../constants/colors";
 import { Link } from 'react-router-dom';
+import { useContext } from "react";
+import { UserContext } from '../UserContext';
 
 export default function Header() {
+  const user = useContext(UserContext);
+
   return (
     <Style>
       <Link to="/habitos">TrackIt</Link>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWfnKQkTokzXhH6kny7bM4LP75NQ0cb9dCIQ&usqp=CAU" alt="" />
+      <img src={user.image} alt="" />
     </Style>
   );
 }

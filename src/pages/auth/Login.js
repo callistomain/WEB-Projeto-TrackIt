@@ -27,15 +27,18 @@ export default function Login({setUser}) {
       setUser(r.data);      
       navigate("/hoje");
     })
-    .catch(e => console.log(e));
-
+    .catch(e => {
+      console.log(e);
+      alert(e.response.data.message);
+      setLoading(false);
+    });
   }
 
   return (
     <AuthStyle>
       <Link to="/"><img src={logoImg} alt="" /></Link>
       <form action="" onSubmit={eventHandler}>
-        <Input type="email" placeholder="email" required disabled={loading}/>
+        <Input type="email" placeholder="email" required disabled={loading}  pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com"/>
         <Input type="password" placeholder="senha" required disabled={loading}/>
         <Button disabled={loading}>
           {loading 

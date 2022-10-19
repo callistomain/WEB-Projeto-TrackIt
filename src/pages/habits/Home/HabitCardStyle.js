@@ -39,6 +39,10 @@ export const HabitCardStyle = styled.div`
       cursor: pointer;
     }
 
+    .li {
+      cursor: default;
+    }
+
     input:checked + label,
     .checked {
       background-color: ${colorGray};

@@ -10,19 +10,32 @@ import { url } from '../../../constants/urls';
 import axios from "axios";
 import { UserContext } from '../../../UserContext';
 
-export default function Home() {
+export default function Home({setUser}) {
   const [creating, setCreating] = useState(false);
   const [habits, setHabits] = useState(null);
+  const [update, setUpdate] = useState(true);
   const user = useContext(UserContext);
 
   useEffect(() => {
     const headers = {
       headers: { Authorization: "Bearer " + user.token }
     }
+
+    // Habits
     axios.get(url.habits, headers)
     .then(r => setHabits(r.data))
     .catch(e => console.log(e));
-  }, [user.token, creating]);
+
+    // Calculate percentage
+    axios.get(url.habitsToday, headers)
+    .then(r => {
+      const data = r.data;
+      let done = 0;  data.forEach(e => e.done ? done++ : null);
+      const percentage = (done / data.length) * 100;
+      setUser(obj => ({...obj, percentage}));
+    })
+    .catch(e => console.log(e));
+  }, [user.token, creating, update, setUser]);
 
   return (
     <Style>
@@ -35,7 +48,7 @@ export default function Home() {
       </div>
       {creating && <HabitCreate cancel={() => setCreating(false)}/>}
       {habits
-        ? habits.map(e => <HabitCard key={e.id} name={e.name} days={e.days}/>)
+        ? habits.map(e => <HabitCard key={e.id} obj={e} update={() => setUpdate(!update)}/>)
         : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
       }
     </Style>

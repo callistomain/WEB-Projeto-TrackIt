@@ -3,15 +3,17 @@ import { colorComp } from "../constants/colors";
 import { Link } from 'react-router-dom';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import "react-circular-progressbar/dist/styles.css";
+import { useContext } from "react";
+import { UserContext } from '../UserContext';
 
 export default function Footer() {
-  const percentage = 66;
+  const user = useContext(UserContext);
   return (
     <Style>
       <Link to="/habitos">Hábitos</Link>
       <Link to="/hoje" className="hoje">
         <CircularProgressbar
-          value={percentage}
+          value={user.percentage === undefined ? 0 : user.percentage}
           text="Hoje"
           background
           backgroundPadding={6}
