@@ -3,21 +3,20 @@ import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { colorBackground, colorMain, colorTextGray } from '../../../constants/colors';
 import HabitItem from "./HabitItem";
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br'
 
 export default function Today() {
+  const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+  const day = dayjs().locale("pt-br").format("dddd, D/M").replace("-feira", "");
+
   return (
     <Style>
       <Header/>
       <Footer/>
-
-      {/* div > h1+div
-          ul > {map li} [HabitItem]
-
-          {HabitItemStyle}
-          // seek through habitCont days and compare with current day
-          ^ li > (div > h2 + div*2>p+span) + div.checkbox  */}
+      
       <div>
-        <h2>Segunda, 17/05</h2>
+        <h2>{capitalize(day)}</h2>
         <p>Nenhum hábito concluído ainda</p>
       </div>
 
@@ -31,23 +30,31 @@ export default function Today() {
 }
 
 const Style = styled.main`
-  padding: 0 32px;
-  padding-top: 70px;
+  padding: 70px 32px;
   height: calc(100vh - 70px);
+  overflow-y: auto;
   background-color: ${colorBackground};
 
-  div {
+  & > div {
     display: flex;
     flex-direction: column;
     color: ${colorMain};
     font-size: 23px;
-    margin-top: 23px;
+    margin: 32px 0;
     gap: 6px;
     
     p {
       color: ${colorTextGray};
       font-size: 18px;
     }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    gap: 12px;
   }
 
 `;

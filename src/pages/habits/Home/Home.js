@@ -3,35 +3,54 @@ import { Button } from "../../../components/Button";
 import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { colorBackground, colorMain, colorText } from '../../../constants/colors';
+import HabitCard from './HabitCard';
+import HabitCreate from './HabitCreate';
+import { useEffect, useState, useContext } from 'react';
+import { url } from '../../../constants/urls';
+import axios from "axios";
+import { UserContext } from '../../../UserContext';
 
 export default function Home() {
+  const [creating, setCreating] = useState(false);
+  const [habits, setHabits] = useState(null);
+  const user = useContext(UserContext);
+
+  useEffect(() => {
+    const headers = {
+      headers: { Authorization: "Bearer " + user.token }
+    }
+    axios.get(url.habits, headers)
+    .then(r => setHabits(r.data))
+    .catch(e => console.log(e));
+  }, [user.token, creating]);
+
   return (
     <Style>
       <Header/>
       <Footer/>
 
-      {/* div > p + Button {space-between}
-      {onClick ? CreateHabit}
-      {habit-list
-        ? ul > map li [HabitContainer]
-        : p message
-      } */}
-      <div>
+      <div className="top-info">
         <h2>Meus hábitos</h2>
-        <Button>+</Button>
+        <Button onClick={() => setCreating(true)}>+</Button>
       </div>
-      <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+      {creating && <HabitCreate cancel={() => setCreating(false)}/>}
+      {habits
+        ? habits.map(e => <HabitCard key={e.id} name={e.name} days={e.days}/>)
+        : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+      }
     </Style>
   );
 }
 
 const Style = styled.main`
+  margin: 70px 0;
   padding: 0 32px;
-  padding-top: 70px;
-  height: calc(100vh - 70px);
+  padding-bottom: 32px;
+  height: calc(100vh - 140px);
+  overflow-y: auto;
   background-color: ${colorBackground};
 
-  div {
+  .top-info {
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colorGray, colorComp } from "../../constants/colors";
+import { colorComp } from "../../constants/colors";
 
 export const AuthStyle = styled.main`
   margin-top: 12vh;
@@ -18,20 +18,6 @@ export const AuthStyle = styled.main`
     align-items: center;
     gap: 6px;
     margin-bottom: 26px;
-    
-    input {
-      font-family: 'Lexend Deca', sans-serif;
-      font-size: 20px;
-      height: 45px;
-      border: 1px solid ${colorGray};
-      border-radius: 5px;
-      width: 303px;
-      padding: 0 12px;
-    }
-    
-    input::placeholder {
-      color: ${colorGray};
-    }
     
     button {
       cursor: pointer;

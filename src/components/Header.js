@@ -12,6 +12,7 @@ export default function Header() {
 }
 
 const Style = styled.header`
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
