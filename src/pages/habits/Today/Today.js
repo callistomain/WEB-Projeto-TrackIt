@@ -25,9 +25,14 @@ export default function Today({setUser, habitsToday, setHabitsToday}) {
     .then(r => {
       const data = r.data;
       setHabitsToday(data);
+      localStorage.setItem("today", JSON.stringify(data));
       let done = 0;  data.forEach(e => e.done ? done++ : null);
       const percentage = (done / data.length) * 100;
-      setUser(obj => ({...obj, percentage}));
+      setUser(user => {
+        const obj = {...user, percentage};
+        localStorage.setItem("user", JSON.stringify(obj));
+        return obj;
+      });
     })
     .catch(e => console.log(e));
   }, [user.token, update, setUser, setHabitsToday]);
@@ -56,8 +61,8 @@ export default function Today({setUser, habitsToday, setHabitsToday}) {
 
 const Style = styled.main`
   padding: 70px 32px;
-  height: calc(100vh - 70px);
-  overflow-y: auto;
+  padding-bottom: 120px;
+  min-height: calc(100vh - 70px);
   background-color: ${colorBackground};
 
   & > div {

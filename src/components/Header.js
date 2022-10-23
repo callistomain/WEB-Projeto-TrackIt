@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <Style>
       <Link to="/habitos">TrackIt</Link>
-      <img src={user.image} alt="" />
+      <img data-identifier="avatar" src={user.image} alt=""/>
     </Style>
   );
 }

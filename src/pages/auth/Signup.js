@@ -25,11 +25,9 @@ export default function Signup() {
 
     axios.post(url.signUp, obj)
     .then(r => {
-      console.log(r);
       navigate("/");
     })
     .catch(e => {
-      console.log(e);
       alert(e.response.data.message);
       setLoading(false);
     });
@@ -39,10 +37,10 @@ export default function Signup() {
     <AuthStyle>
       <Link to="/"><img src={logoImg} alt="" /></Link>
       <form action="" onSubmit={eventHandler}>
-        <Input type="email" placeholder="email" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com" required disabled={loading}/>
-        <Input type="password" placeholder="senha" required disabled={loading}/>
-        <Input type="text" placeholder="nome" required disabled={loading}/>
-        <Input type="url" placeholder="foto" required disabled={loading}/>
+        <Input data-identifier="input-email" type="email" placeholder="email" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com" required disabled={loading}/>
+        <Input data-identifier="input-password" type="password" placeholder="senha" required disabled={loading}/>
+        <Input data-identifier="input-name" type="text" placeholder="nome" required disabled={loading}/>
+        <Input data-identifier="input-photo" type="url" placeholder="foto" required disabled={loading}/>
         <Button disabled={loading}>
         {loading 
             ? <ThreeDots 
@@ -59,7 +57,7 @@ export default function Signup() {
           }
         </Button>
       </form>
-      <Link to="/">Já tem uma conta? Faça login!</Link>
+      <Link data-identifier="back-to-login-action" to="/">Já tem uma conta? Faça login!</Link>
     </AuthStyle>
   );
 }

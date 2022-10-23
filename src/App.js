@@ -9,8 +9,10 @@ import { UserContext } from './UserContext';
 import { useState } from "react";
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [habitsToday, setHabitsToday] = useState(null);
+  const userObj = JSON.parse(localStorage.getItem("user"));
+  const todayLocal = JSON.parse(localStorage.getItem("today"));
+  const [user, setUser] = useState(userObj);
+  const [habitsToday, setHabitsToday] = useState(todayLocal);
 
   return (
     <BrowserRouter>
@@ -18,12 +20,10 @@ export default function App() {
       <UserContext.Provider value={user}>
         <Routes>
             <Route path="/" element={
-              // user ? <Navigate replace to="/hoje" /> : <Login setUser={setUser}/>
-              <Login setUser={setUser}/>
+              user ? <Navigate replace to="/hoje" /> : <Login setUser={setUser}/>
             }/>
             <Route path="/cadastro" element={
-              // user ? <Signup /> : <Navigate replace to="/" />
-              <Signup />
+              user ? <Navigate replace to="/hoje" /> : <Signup />
             } />
             <Route path="/habitos" element={
               user ? <Home setUser={setUser}/> : <Navigate replace to="/" />

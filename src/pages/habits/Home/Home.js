@@ -11,9 +11,14 @@ import axios from "axios";
 import { UserContext } from '../../../UserContext';
 
 export default function Home({setUser}) {
+  const habitsLocal = JSON.parse(localStorage.getItem("habits"));
   const [creating, setCreating] = useState(false);
-  const [habits, setHabits] = useState(null);
+  const [habits, setHabits] = useState(habitsLocal);
   const [update, setUpdate] = useState(true);
+  const [createInfo, setCreateInfo] = useState({
+    name: "",
+    days: new Array(7).fill(false)
+  });
   const user = useContext(UserContext);
 
   useEffect(() => {
@@ -23,7 +28,11 @@ export default function Home({setUser}) {
 
     // Habits
     axios.get(url.habits, headers)
-    .then(r => setHabits(r.data))
+    .then(r => {
+      const data = r.data.length ? r.data : null;
+      setHabits(data);
+      localStorage.setItem("habits", JSON.stringify(data));
+    })
     .catch(e => console.log(e));
 
     // Calculate percentage
@@ -32,7 +41,11 @@ export default function Home({setUser}) {
       const data = r.data;
       let done = 0;  data.forEach(e => e.done ? done++ : null);
       const percentage = (done / data.length) * 100;
-      setUser(obj => ({...obj, percentage}));
+      setUser(user => {
+        const obj = {...user, percentage};
+        localStorage.setItem("user", JSON.stringify(obj));
+        return obj;
+      });
     })
     .catch(e => console.log(e));
   }, [user.token, creating, update, setUser]);
@@ -44,23 +57,21 @@ export default function Home({setUser}) {
 
       <div className="top-info">
         <h2>Meus hábitos</h2>
-        <Button onClick={() => setCreating(true)}>+</Button>
+        <Button data-identifier="create-habit-btn" onClick={() => setCreating(true)}>+</Button>
       </div>
-      {creating && <HabitCreate cancel={() => setCreating(false)}/>}
+      {creating && <HabitCreate cancel={() => setCreating(false)} createInfo={createInfo} setCreateInfo={setCreateInfo}/>}
       {habits
         ? habits.map(e => <HabitCard key={e.id} obj={e} update={() => setUpdate(!update)}/>)
-        : <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+        : <p data-identifier="no-habit-message">Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
       }
     </Style>
   );
 }
 
 const Style = styled.main`
-  margin: 70px 0;
-  padding: 0 32px;
-  padding-bottom: 32px;
-  height: calc(100vh - 140px);
-  overflow-y: auto;
+  padding: 70px 32px;
+  padding-bottom: 120px;
+  min-height: calc(100vh - 70px);
   background-color: ${colorBackground};
 
   .top-info {

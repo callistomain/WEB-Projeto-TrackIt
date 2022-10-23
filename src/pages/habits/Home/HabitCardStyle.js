@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colorComp, colorGray, colorText } from "../../../constants/colors";
+import { colorComp, colorText } from "../../../constants/colors";
 
 export const HabitCardStyle = styled.div`
   position: relative;
@@ -25,29 +25,6 @@ export const HabitCardStyle = styled.div`
     margin-top: 10px;
     display: flex;
     gap: 4px;
-
-    label,
-    .li {
-      color: ${colorGray};
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 30px;
-      height: 30px;
-      border: 1px solid ${colorGray};
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .li {
-      cursor: default;
-    }
-
-    input:checked + label,
-    .checked {
-      background-color: ${colorGray};
-      color: white;
-    }
   }
 
   .buttons {

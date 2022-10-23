@@ -23,12 +23,11 @@ export default function Login({setUser}) {
 
     axios.post(url.login, obj)
     .then(r => {
-      console.log(r);
+      localStorage.setItem("user", JSON.stringify(r.data));
       setUser(r.data);      
       navigate("/hoje");
     })
     .catch(e => {
-      console.log(e);
       alert(e.response.data.message);
       setLoading(false);
     });
@@ -38,9 +37,9 @@ export default function Login({setUser}) {
     <AuthStyle>
       <Link to="/"><img src={logoImg} alt="" /></Link>
       <form action="" onSubmit={eventHandler}>
-        <Input type="email" placeholder="email" required disabled={loading}  pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com"/>
-        <Input type="password" placeholder="senha" required disabled={loading}/>
-        <Button disabled={loading}>
+        <Input data-identifier="input-email" type="email" placeholder="email" required disabled={loading}  pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.com"/>
+        <Input data-identifier="input-password" type="password" placeholder="senha" required disabled={loading}/>
+        <Button data-identifier="login-btn" disabled={loading}>
           {loading 
             ? <ThreeDots 
                 height="inherit" 
@@ -56,7 +55,7 @@ export default function Login({setUser}) {
           }
         </Button>
       </form>
-      <Link to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
+      <Link data-identifier="sign-up-action" to="/cadastro">Não tem uma conta? Cadastre-se!</Link>
     </AuthStyle>
   );
 }

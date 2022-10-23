@@ -20,14 +20,12 @@ export default function HabitItem({obj, update}) {
     if (done) {
       axios.post(url.habitsUncheck(id), null, headers)
       .then(r => {
-        console.log(r);
         update();
       })
       .catch(e => console.log(e));
     } else {
       axios.post(url.habitsCheck(id), null, headers)
       .then(r => {
-        console.log(r);
         update();
       })
       .catch(e => console.log(e));
@@ -35,13 +33,13 @@ export default function HabitItem({obj, update}) {
   }
 
   return (
-    <Style>
+    <Style data-identifier="today-infos">
       <div className="info">
         <h2>{name}</h2>
         <p>Sequência atual: <span className={sequence}>{currentSequence} {currentSequence === 1 ? " dia" : " dias"}</span></p>
         <p>Seu recorde: <span className={record}>{highestSequence} {highestSequence === 1 ? " dia" : " dias"}</span></p>
       </div>
-      <div className={checkbox} onClick={eventHandler}>
+      <div data-identifier="done-habit-btn" className={checkbox} onClick={eventHandler}>
         <img src={checkImg} alt="" />
       </div>
     </Style>

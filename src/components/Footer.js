@@ -10,8 +10,8 @@ export default function Footer() {
   const user = useContext(UserContext);
   return (
     <Style>
-      <Link to="/habitos">Hábitos</Link>
-      <Link to="/hoje" className="hoje">
+      <Link data-identifier="habit-page-action" to="/habitos">Hábitos</Link>
+      <Link data-identifier="today-page-action" to="/hoje" className="hoje">
         <CircularProgressbar
           value={user.percentage === undefined ? 0 : user.percentage}
           text="Hoje"
@@ -26,7 +26,7 @@ export default function Footer() {
           })}
         />
       </Link>
-      <Link to="/historico">Histórico</Link>
+      <Link data-identifier="historic-page-action" to="/historico">Histórico</Link>
     </Style>
   );
 }
